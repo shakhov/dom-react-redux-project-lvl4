@@ -6,6 +6,25 @@
 
 ---
 
+## Установка
+
+```sh
+# Клонировать репозиторий
+$ git clone https://github.com/shakhov/dom-react-redux-project-lvl4.git
+
+# Установка зависимостей
+$ make install
+```
+
+## Запуск
+
+```sh
+$ make start
+# open http://localhost:5000
+```
+
+---
+
 ## Heroku
 
 Данное приложение задеплоено на [Heroku](https://www.heroku.com/).
