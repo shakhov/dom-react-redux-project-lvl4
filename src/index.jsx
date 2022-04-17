@@ -5,12 +5,17 @@ import 'regenerator-runtime/runtime.js';
 
 import '../assets/application.scss';
 
-import ReactDOM from 'react-dom';
 import React from 'react';
+import ReactDOMClient from 'react-dom/client';
 
 import App from './components/App.jsx';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('chat'),
-);
+const render = () => {
+  const container = document.getElementById('chat');
+
+  const root = ReactDOMClient.createRoot(container);
+
+  root.render(<App />);
+};
+
+render();
