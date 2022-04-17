@@ -6,15 +6,26 @@ import {
   Container,
   Card,
   Row,
-  Col
+  Col,
 } from 'react-bootstrap';
+
+import {
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-function LoginForm() {
+import axios from 'axios';
+import routes from '../routes.js';
+
+function LoginForm({ state }) {
   const inputRef = useRef();
   const [authFailed, setAuthFailed] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { from } = location.state || state || { from: '/' };
 
   const loginSchema = Yup.object({
     username: Yup.string()
@@ -29,12 +40,21 @@ function LoginForm() {
       password: '',
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-      setAuthFailed(true);
-      if (authFailed) {
-        inputRef.current.select();
+    onSubmit: async (values) => {
+      setAuthFailed(false);
+      try {
+        const { data } = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('userId', JSON.stringify(data));
+        {/* log in */}
+        navigate(from);
+      } catch (error) {
+        if (error.isAxiosError && error.response.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          return;
+        }
+        throw (error);
       }
-      return false;
     },
   });
 
@@ -103,7 +123,7 @@ function LoginForm() {
   );
 }
 
-function LoginPage() {
+function LoginPage({ state }) {
   return (
     <Container fluid className="h-100">
       <Row className="h-100 justify-content-center align-content-center">
@@ -113,7 +133,7 @@ function LoginPage() {
               <h1>Log In</h1>
             </Card.Header>
             <Card.Body className="p-5">
-              <LoginForm />
+              <LoginForm state={state}/>
             </Card.Body>
             <Card.Footer className="text-center p-3">
               <span>No account?</span>

@@ -59,7 +59,7 @@ function Router() {
         />
         <Route
           path="/login"
-          element={<LoginPage />}
+          element={<LoginPage state={{ from: location }} />}
         />
         <Route
           path="*"
