@@ -13,6 +13,7 @@ import NotFoundPage from '../pages/NotFoundPage.jsx';
 function Router() {
   return (
     <BrowserRouter>
+      <h1>Navbar placeholder</h1>
       <Routes>
         <Route
           path="/"
