@@ -19,20 +19,25 @@ import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 
+import useAuth from '../hooks/useAuth.jsx';
+
 function AuthButton() {
-  const auth = {loggedIn: false};
-  const username = 'Username';
+  const auth = useAuth();
   const location = useLocation();
 
   if (auth.loggedIn) {
+    {/* TODO: store username in AuthContext */}
+    const { username } = JSON.parse(localStorage.getItem('userId'));
+
     return (
       <Nav>
         <Navbar.Text>
-          Logged in as &nbsp;
+          Logged in as
+          &nbsp;
           <a href="#login">{username}</a>
         </Navbar.Text>
         &nbsp;
-        <Button>
+        <Button onClick={auth.logOut}>
           Log Out
         </Button>
       </Nav>

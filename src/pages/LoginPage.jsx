@@ -20,9 +20,12 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
 
+import useAuth from '../hooks/useAuth.jsx';
+
 function LoginForm({ state }) {
   const inputRef = useRef();
   const [authFailed, setAuthFailed] = useState(false);
+  const auth = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { from } = location.state || state || { from: '/' };
@@ -45,7 +48,7 @@ function LoginForm({ state }) {
       try {
         const { data } = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(data));
-        {/* log in */}
+        auth.logIn();
         navigate(from);
       } catch (error) {
         if (error.isAxiosError && error.response.status === 401) {
