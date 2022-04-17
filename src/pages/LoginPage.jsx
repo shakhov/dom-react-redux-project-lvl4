@@ -1,54 +1,101 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { Form, Button } from 'react-bootstrap';
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Container,
+  Card,
+  Row,
+  Col
+} from 'react-bootstrap';
+
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 function LoginForm() {
-  return (
-    <Form>
-    <Form.Group>
-      <Form.Group>
-        <Form.FloatingLabel
-          className="mb-4"
-          label="Username"
-        >
-          <Form.Control
-            id="username"
-            name="username"
-            placeholder="Username"
-            autoComplete="username"
-            required
-            isInvalid={true}
-          />
-          <Form.Control.Feedback type="invalid">
-            user not found
-          </Form.Control.Feedback>
-        </Form.FloatingLabel>
-      </Form.Group>
-      <Form.Group>
-        <Form.FloatingLabel
-          className="mb-4"
-          label="Password"
-        >
-          <Form.Control
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            autoComplete="password"
-            required
-            isInvalid={true}
-          />
-          <Form.Control.Feedback type="invalid">
-            wrond password
-          </Form.Control.Feedback>
-        <Form.Control.Feedback type="invalid">
-          {true && 'Wrong username or password'}
-        </Form.Control.Feedback>
-        </Form.FloatingLabel>
+  const inputRef = useRef();
+  const [authFailed, setAuthFailed] = useState(false);
 
+  const loginSchema = Yup.object({
+    username: Yup.string()
+                 .required('Username is required'),
+    password: Yup.string()
+                 .required('Password is required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      setAuthFailed(true);
+      if (authFailed) {
+        inputRef.current.select();
+      }
+      return false;
+    },
+  });
+
+  const isUsernameValid = !(formik.touched.username && formik.errors.username);
+  const isPasswordValid = !(formik.touched.password && formik.errors.password);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  return (
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Group>
+        <Form.Group>
+          <Form.FloatingLabel
+            className="mb-4"
+            label="Username"
+          >
+            <Form.Control
+              id="username"
+              name="username"
+              placeholder="Username"
+              autoComplete="username"
+              required
+              ref={inputRef}
+              isInvalid={authFailed || !isUsernameValid}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+            />
+            <Form.Control.Feedback type="invalid">
+              {!isUsernameValid && formik.errors.username}
+            </Form.Control.Feedback>
+          </Form.FloatingLabel>
+        </Form.Group>
+        <Form.Group>
+          <Form.FloatingLabel
+            className="mb-4"
+            label="Password"
+          >
+            <Form.Control
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              autoComplete="password"
+              required
+              isInvalid={authFailed || !isPasswordValid}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
+            <Form.Control.Feedback type="invalid">
+              {!isPasswordValid && formik.errors.password}
+            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              {authFailed && 'Wrong username or password'}
+            </Form.Control.Feedback>
+          </Form.FloatingLabel>
+        </Form.Group>
       </Form.Group>
-    </Form.Group>
       <Button type="submit" variant="outline-primary" className="w-100 mb-3 p-2">
         Log In
       </Button>
@@ -58,7 +105,7 @@ function LoginForm() {
 
 function LoginPage() {
   return (
-    <Container fuid className="h-100">
+    <Container fluid className="h-100">
       <Row className="h-100 justify-content-center align-content-center">
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="">
