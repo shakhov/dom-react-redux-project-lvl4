@@ -7,8 +7,6 @@ import {
 
 import {
   Button,
-  Navbar,
-  Nav,
 } from 'react-bootstrap';
 
 import useAuth from '../hooks/useAuth.jsx';
@@ -21,17 +19,16 @@ function AuthButton() {
     const { username } = JSON.parse(localStorage.getItem('userId'));
 
     return (
-      <Nav>
-        <Navbar.Text>
+      <div>
+        <span>
           Logged in as
           {' '}
           <a href="#login">{username}</a>
-        </Navbar.Text>
-        &nbsp;
-        <Button onClick={auth.logOut}>
+        </span>
+        <Button className="m-3" onClick={auth.logOut}>
           Log Out
         </Button>
-      </Nav>
+      </div>
     );
   }
   return <Button as={Link} to="/login" state={{ from: location }}>Log In</Button>;

@@ -20,6 +20,8 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
 
+import AuthButton from '../components/AuthButton.jsx';
+
 import useAuth from '../hooks/useAuth.jsx';
 
 function LoginForm({ state }) {
@@ -127,16 +129,22 @@ function LoginForm({ state }) {
 }
 
 function LoginPage({ state }) {
+  const auth = useAuth();
+
+  const cardContents = (auth.loggedIn)
+        ? <AuthButton />
+        : <LoginForm state={state} />;
+
   return (
     <Container fluid className="h-100">
       <Row className="h-100 justify-content-center align-content-center">
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow">
             <Card.Header className="text-center p-3">
-              <h1>Log In</h1>
+              <h2>Log In</h2>
             </Card.Header>
-            <Card.Body className="p-5">
-              <LoginForm state={state}/>
+            <Card.Body className="text-center p-5">
+              {cardContents}
             </Card.Body>
             <Card.Footer className="text-center p-3">
               <span>No account?</span>
