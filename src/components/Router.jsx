@@ -46,6 +46,15 @@ function AuthButton() {
   return <Button as={Link} to="/login" state={{ from: location }}>Log In</Button>;
 }
 
+function PrivateRoute({ children }) {
+  const auth = useAuth();
+  const location = useLocation();
+
+  return (
+    auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+  );
+}
+
 function Router() {
   return (
     <BrowserRouter>
@@ -60,7 +69,10 @@ function Router() {
       <Routes>
         <Route
           path="/"
-          element={<ChatPage />}
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>}
         />
         <Route
           path="/login"
