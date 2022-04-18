@@ -131,7 +131,7 @@ function LoginPage({ state }) {
     <Container fluid className="h-100">
       <Row className="h-100 justify-content-center align-content-center">
         <Col className="col-12 col-md-8 col-xxl-6">
-          <Card className="">
+          <Card className="shadow">
             <Card.Header className="text-center p-3">
               <h1>Log In</h1>
             </Card.Header>
