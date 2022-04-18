@@ -9,42 +9,17 @@ import {
 } from 'react-router-dom';
 
 import {
-  Button,
   Navbar,
-  Nav,
   Container,
 } from 'react-bootstrap';
+
+import AuthButton from './AuthButton.jsx';
 
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 
 import useAuth from '../hooks/useAuth.jsx';
-
-function AuthButton() {
-  const auth = useAuth();
-  const location = useLocation();
-
-  if (auth.loggedIn) {
-    {/* TODO: store username in AuthContext */}
-    const { username } = JSON.parse(localStorage.getItem('userId'));
-
-    return (
-      <Nav>
-        <Navbar.Text>
-          Logged in as
-          &nbsp;
-          <a href="#login">{username}</a>
-        </Navbar.Text>
-        &nbsp;
-        <Button onClick={auth.logOut}>
-          Log Out
-        </Button>
-      </Nav>
-    );
-  }
-  return <Button as={Link} to="/login" state={{ from: location }}>Log In</Button>;
-}
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -69,10 +44,11 @@ function Router() {
       <Routes>
         <Route
           path="/"
-          element={
+          element={(
             <PrivateRoute>
               <ChatPage />
-            </PrivateRoute>}
+            </PrivateRoute>
+          )}
         />
         <Route
           path="/login"
