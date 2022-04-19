@@ -25,11 +25,12 @@ import AuthButton from '../components/AuthButton.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 
 function LoginForm({ state }) {
-  const inputRef = useRef();
-  const [authFailed, setAuthFailed] = useState(false);
   const auth = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const usernameRef = useRef();
+  const [authFailed, setAuthFailed] = useState(false);
   const { from } = location.state || state || { from: '/' };
 
   const loginSchema = Yup.object({
@@ -49,13 +50,12 @@ function LoginForm({ state }) {
       setAuthFailed(false);
       try {
         const { data } = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(data));
-        auth.logIn();
+        auth.logIn(data);
         navigate(from);
       } catch (error) {
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
-          inputRef.current.select();
+          usernameRef.current.select();
           return;
         }
         throw (error);
@@ -67,7 +67,7 @@ function LoginForm({ state }) {
   const isPasswordValid = !(formik.touched.password && formik.errors.password);
 
   useEffect(() => {
-    inputRef.current.focus();
+    usernameRef.current.focus();
   }, []);
 
   return (
@@ -84,7 +84,7 @@ function LoginForm({ state }) {
               placeholder="Username"
               autoComplete="username"
               required
-              ref={inputRef}
+              ref={usernameRef}
               isInvalid={authFailed || !isUsernameValid}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

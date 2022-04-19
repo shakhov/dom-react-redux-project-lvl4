@@ -8,7 +8,11 @@ function AuthProvider({ children }) {
   const userId = localStorage.getItem('userId');
   const [loggedIn, setLoggedIn] = useState(userId ? true : false);
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = (data) => {
+    localStorage.setItem('userId', JSON.stringify(data));
+    setLoggedIn(true);
+  };
+
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);
