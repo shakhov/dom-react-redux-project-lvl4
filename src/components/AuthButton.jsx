@@ -16,7 +16,7 @@ function AuthButton() {
   const location = useLocation();
 
   if (auth.loggedIn) {
-    const { username } = JSON.parse(localStorage.getItem('userId'));
+    const { username } = auth.userId;
 
     return (
       <div>
