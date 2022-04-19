@@ -1,29 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import Router from './Router.jsx';
-
-import AuthContext from '../contexts/AuthContext.jsx';
-import useAuth from '../hooks/useAuth.jsx';
-
-function AuthProvider({ children }) {
-  const userId = localStorage.getItem('userId');
-  const [loggedIn, setLoggedIn] = useState(userId ? true : false);
-
-  const logIn = (data) => {
-    localStorage.setItem('userId', JSON.stringify(data));
-    setLoggedIn(true);
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('userId');
-    setLoggedIn(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
+import AuthProvider from '../providers/AuthProvider.jsx';
 
 function App() {
   return (
