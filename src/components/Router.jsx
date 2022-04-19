@@ -4,17 +4,10 @@ import {
   Routes,
   Route,
   Navigate,
-  Link,
   useLocation,
 } from 'react-router-dom';
 
-import {
-  Navbar,
-  Container,
-} from 'react-bootstrap';
-
-import AuthButton from './AuthButton.jsx';
-
+import Header from './Header.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
@@ -33,14 +26,7 @@ function PrivateRoute({ children }) {
 function Router() {
   return (
     <BrowserRouter>
-      <Navbar className="shadow-sm navba-expand-lg navbar-light bg-white p-3">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="fs-2">
-            Chat
-          </Navbar.Brand>
-          <AuthButton />
-        </Container>
-      </Navbar>
+      <Header />
       <Routes>
         <Route
           path="/"
@@ -52,7 +38,7 @@ function Router() {
         />
         <Route
           path="/login"
-          element={<LoginPage state={{ from: location }} />}
+          element={<LoginPage />}
         />
         <Route
           path="*"
