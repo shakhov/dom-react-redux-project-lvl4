@@ -12,6 +12,9 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    setCurrentChannelId: (state, { payload }) => {
+      state.currentChannelId = payload.id; //eslint-disable-line
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -31,5 +34,13 @@ const channelsSlice = createSlice({
   },
 });
 
+export const {
+  setCurrentChannelId,
+} = channelsSlice.actions;
+
+export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
+export const selectLoadingStatus = (state) => state.channels.loadingStatus;
+export const selectLoadingError = (state) => state.channels.loadingError;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
+
 export default channelsSlice.reducer;
