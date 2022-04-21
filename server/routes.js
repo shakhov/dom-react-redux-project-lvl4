@@ -18,7 +18,9 @@ const buildState = (defaultState) => {
     messages: [],
     currentChannelId: generalChannelId,
     users: [
-      { id: 1, username: 'admin', password: 'admin' },
+      { id: getNextId(), username: 'admin', password: 'admin' },
+      { id: getNextId(), username: 'guest', password: 'guest' },
+      { id: getNextId(), username: 'hexlet', password: 'hexlet' },
     ],
   };
 
