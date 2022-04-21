@@ -12,8 +12,14 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    removeChannel: (state, { payload }) => {
+      channelsAdapter.removeOne(state, payload);
+      if (state.currentChannelId === payload) {
+        state.currentChannelId = 1; // eslint-disable-line
+      }
+    },
     setCurrentChannelId: (state, { payload }) => {
-      state.currentChannelId = payload.id; //eslint-disable-line
+      state.currentChannelId = payload; //eslint-disable-line
     },
   },
   extraReducers: (builder) => {
@@ -25,7 +31,13 @@ const channelsSlice = createSlice({
       .addCase(fetchData.fulfilled, (state, { payload }) => {
         state.loadingStatus = 'success'; // eslint-disable-line
         state.currentChannelId = payload.currentChannelId;// eslint-disable-line
-        channelsAdapter.addMany(state, payload.channels);
+        channelsAdapter.addMany(
+          state,
+          [...payload.channels,
+           { id: 3, name: 'test', removable: true },
+           { id: 4, name: 'foobar', removable: true },
+          ],
+        );
       })
       .addCase(fetchData.rejected, (state, { error }) => {
         state.loadingStatus = 'error'; // eslint-disable-line
@@ -34,9 +46,7 @@ const channelsSlice = createSlice({
   },
 });
 
-export const {
-  setCurrentChannelId,
-} = channelsSlice.actions;
+export const { actions } = channelsSlice;
 
 export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 export const selectLoadingStatus = (state) => state.channels.loadingStatus;
