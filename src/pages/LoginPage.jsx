@@ -35,9 +35,9 @@ function LoginForm({ state }) {
 
   const loginSchema = Yup.object({
     username: Yup.string()
-                 .required('Username is required'),
+                 .required('Username is required'), // eslint-disable-line
     password: Yup.string()
-                 .required('Password is required'),
+                 .required('Password is required'), // eslint-disable-line
   });
 
   const formik = useFormik({
@@ -132,8 +132,8 @@ function LoginPage({ state }) {
   const auth = useAuth();
 
   const cardContents = (auth.loggedIn)
-        ? <AuthButton />
-        : <LoginForm state={state} />;
+        ? <AuthButton /> // eslint-disable-line
+        : <LoginForm state={state} />; // eslint-disable-line
 
   return (
     <Container fluid className="h-100">
