@@ -63,11 +63,12 @@ function ChannelItem({
   );
 }
 
-function ChannelsNav() {
+function ChannelsNav({
+  currentChannelId = useSelector(selectCurrentChannelId),
+}) {
   const dispatch = useDispatch();
 
   const channels = useSelector(channelsSelectors.selectAll);
-  const currentChannelId = useSelector(selectCurrentChannelId);
 
   const handleSelect = (eventKey) => {
     dispatch(channelsActions.setCurrentChannelId(Number(eventKey)));
@@ -98,6 +99,7 @@ function ChannelsNav() {
         </Button>
       </div>
       <Nav
+        className="flex-column"
         variant="pills"
         fill
         activeKey={currentChannelId}

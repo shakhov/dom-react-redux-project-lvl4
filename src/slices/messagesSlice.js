@@ -1,4 +1,8 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
+
 import fetchData from './fetchData.js';
 
 const messagesAdapter = createEntityAdapter();
@@ -43,9 +47,13 @@ const messagesSlice = createSlice({
 });
 
 export const { actions } = messagesSlice;
+export const selectors = messagesAdapter.getSelectors((state) => state.messages);
 
 export const selectLoadingStatus = (state) => state.messages.loadingStatus;
 export const selectLoadingError = (state) => state.messages.loadingError;
-export const selectors = messagesAdapter.getSelectors((state) => state.messages);
+
+export const selectMessagesByChannelId = (id) => (state) => (
+  selectors.selectAll(state).filter(({ channelId }) => channelId === id)
+);
 
 export default messagesSlice.reducer;
