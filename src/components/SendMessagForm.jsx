@@ -46,6 +46,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
 
   useEffect(() => {
     if (messageRef.current) {
+      formik.resetForm();
       messageRef.current.focus();
     }
   }, [currentChannelId]);
