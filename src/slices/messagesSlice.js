@@ -16,7 +16,7 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    sendMessage: (state, { payload }) => {
+    addMessage: (state, { payload }) => {
       messagesAdapter.addOne(state, payload);
     },
   },

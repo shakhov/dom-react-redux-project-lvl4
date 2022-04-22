@@ -15,13 +15,15 @@ import {
 
 import { useFormik } from 'formik';
 
+import useSocket from '../hooks/useSocket.jsx';
+
 import {
   actions as messagesActions,
 } from '../slices/messagesSlice.js';
 
 function SendMessageForm({ currentUsername, currentChannelId }) {
   const messageRef = useRef();
-  const dispatch = useDispatch();
+  const socket = useSocket();
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
       };
 
       setSubmitting(true);
-      dispatch(messagesActions.sendMessage(message));
+      socket.addMessage(message);
       setSubmitting(false);
       setErrors(null);
       resetForm();
