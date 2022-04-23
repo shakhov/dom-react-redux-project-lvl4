@@ -13,7 +13,13 @@ import { actions as messagesActions } from '../slices/messagesSlice.js';
 
 const initSocket = (socket, socketStore) => {
   const api = {
-    addMessage: (message) => socket.emit('newMessage', message),
+    addMessage: (message, onSuccess, onTimeout) => (
+      socket.timeout(5000).emit(
+        'newMessage',
+        message,
+        (error, response) => ((error) ? onTimeout(error) : onSuccess(response)),
+      )
+    ),
   };
 
   socket.on('newMessage', (message) => {

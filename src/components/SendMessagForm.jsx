@@ -6,20 +6,14 @@ import React,
 
 import {
   Form,
+  FormControl,
   Button,
+  Overlay,
 } from 'react-bootstrap';
-
-import {
-  useDispatch,
-} from 'react-redux';
 
 import { useFormik } from 'formik';
 
 import useSocket from '../hooks/useSocket.jsx';
-
-import {
-  actions as messagesActions,
-} from '../slices/messagesSlice.js';
 
 function SendMessageForm({ currentUsername, currentChannelId }) {
   const messageRef = useRef();
@@ -29,20 +23,28 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
     initialValues: {
       message: '',
     },
-    onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
+    onSubmit: (values, { setSubmitting, setErrors, resetForm }) => {
       const message = {
-        id: Math.random(),
         username: currentUsername,
         channelId: currentChannelId,
         body: values.message,
       };
 
       setSubmitting(true);
-      socket.addMessage(message);
-      setSubmitting(false);
-      setErrors(null);
-      resetForm();
-      messageRef.current.focus();
+
+      socket.addMessage(
+        message,
+        (response) => {
+          setSubmitting(false);
+          resetForm();
+          messageRef.current.focus();
+        },
+        (error) => {
+          setSubmitting(false);
+          setErrors({ network: error });
+          messageRef.current.focus();
+        },
+      );
     },
   });
 
@@ -53,13 +55,39 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
     }
   }, [currentChannelId]);
 
+  const networkError = formik.errors.network;
+
   return (
     <Form
       autoComplete="off"
       className="py-1 border rounded-2 d-flex"
       onSubmit={formik.handleSubmit}
     >
-      <input
+      <Overlay
+        target={messageRef.current}
+        show={networkError ? true : false} // eslint-disable-line
+        placement="top"
+      >
+        {({
+          placement, arrowProps, show: _show, popper, ...props
+        }) => (
+          <div
+            {...props} // eslint-disable-line
+            style={{
+              position: 'absolute',
+              backgroundColor: 'rgba(255, 50, 50, 0.85)',
+              padding: '5px 10px',
+              color: 'white',
+              borderRadius: 4,
+              ...props.style,
+            }}
+          >
+            {networkError && networkError.message}
+          </div>
+        )}
+      </Overlay>
+      <FormControl
+        id="message"
         name="message"
         placeholder="Your message..."
         className="border-0 p-0 ps-2 form-control"
