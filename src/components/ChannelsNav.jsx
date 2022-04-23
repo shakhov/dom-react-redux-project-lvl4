@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
@@ -12,6 +12,8 @@ import {
   actions as channelsActions,
   selectCurrentChannelId,
 } from '../slices/channelsSlice.js';
+
+import modals from './modals/index.jsx';
 
 function ChannelItem({
   channel,
@@ -67,19 +69,15 @@ function ChannelsNav({
   currentChannelId = useSelector(selectCurrentChannelId),
 }) {
   const dispatch = useDispatch();
-
   const channels = useSelector(channelsSelectors.selectAll);
+
+  const [modalState, setModalState] = useState({ modal: null, channel: null });
+  const ActiveModal = modalState.modal;
+
+  const hideModal = () => setModalState({ modal: null, channel: null });
 
   const handleSelect = (eventKey) => {
     dispatch(channelsActions.setCurrentChannelId(Number(eventKey)));
-  };
-
-  const handleRename = (id) => () => {
-    console.error('FIXME: Rename', id);
-  };
-
-  const handleDelete = (id) => () => {
-    dispatch(channelsActions.removeChannel(id));
   };
 
   return (
@@ -89,7 +87,7 @@ function ChannelsNav({
         <Button
           className="sm p-0 btn-group-vertical"
           variant="text-primary"
-          onClick={() => console.error('FIXME: Add channel')}
+          onClick={() => setModalState({ modal: modals.addChannel, channel: null })}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
@@ -109,11 +107,12 @@ function ChannelsNav({
           <ChannelItem
             key={`channel_${channel.id}`}
             channel={channel}
-            onRename={handleRename(channel.id)}
-            onDelete={handleDelete(channel.id)}
+            onRename={() => setModalState({ modal: modals.renameChannel, channel })}
+            onDelete={() => setModalState({ modal: modals.removeChannel, channel })}
           />
         ))}
       </Nav>
+      {ActiveModal && <ActiveModal channel={modalState.channel} onHide={hideModal} />}
     </>
   );
 }
