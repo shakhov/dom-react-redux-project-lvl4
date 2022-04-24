@@ -56,8 +56,8 @@ function ChannelItem({
         />
       </ButtonGroup>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={onDelete}>Remove</Dropdown.Item>
-        <Dropdown.Item onClick={onRename}>Rename</Dropdown.Item>
+        <Dropdown.Item onClick={onRename}>✎ Rename</Dropdown.Item>
+        <Dropdown.Item onClick={onDelete}>✖ Remove</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
