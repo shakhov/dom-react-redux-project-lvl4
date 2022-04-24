@@ -13,16 +13,34 @@ import {
 
 import { useFormik } from 'formik';
 
+import useSocket from '../../hooks/useSocket.jsx';
+
 function AddChannel({ onHide }) {
   const inputRef = useRef();
+  const socket = useSocket();
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    onSubmit: (values) => {
-      console.log(`Add channel ${values.name}`);
-      onHide();
+    onSubmit: (values, { setSubmitting, setErrors }) => {
+      const channel = {
+        name: values.name,
+      };
+
+      setSubmitting(true);
+
+      socket.newChannel(
+        channel,
+        (response) => {
+          setSubmitting(false);
+          onHide();
+        },
+        (error) => {
+          setSubmitting(false);
+          setErrors({ network: error });
+        },
+      );
     },
   });
 
@@ -44,13 +62,19 @@ function AddChannel({ onHide }) {
             <FormControl
               className="mb-3"
               name="name"
+              autoComplete="off"
               required
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.name}
+              disabled={formik.isSubmitting}
             />
           </FormGroup>
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
             Add
           </Button>
         </form>

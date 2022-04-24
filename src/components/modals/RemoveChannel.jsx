@@ -6,11 +6,22 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import useSocket from '../../hooks/useSocket.jsx';
+
 function RemoveChannel({ channel, onHide }) {
+  const socket = useSocket();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Remove channel ${channel.name}`);
-    onHide();
+    socket.removeChannel(
+      channel,
+      (response) => {
+        onHide();
+      },
+      (error) => {
+        console.error(error.message);
+      },
+    );
   };
 
   return (

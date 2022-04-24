@@ -32,7 +32,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
 
       setSubmitting(true);
 
-      socket.addMessage(
+      socket.newMessage(
         message,
         (response) => {
           setSubmitting(false);

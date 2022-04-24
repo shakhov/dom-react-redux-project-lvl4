@@ -6,6 +6,8 @@ import {
 
 import fetchData from './fetchData.js';
 
+import { actions as channelsActions } from './channelsSlice.js';
+
 const messagesAdapter = createEntityAdapter();
 const initialState = messagesAdapter.getInitialState({
   loadingStatus: 'idle',
@@ -16,7 +18,7 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessage: (state, { payload }) => {
+    newMessage: (state, { payload }) => {
       messagesAdapter.addOne(state, payload);
     },
   },
@@ -33,6 +35,11 @@ const messagesSlice = createSlice({
       .addCase(fetchData.rejected, (state, { error }) => {
         state.loadingStatus = 'error'; // eslint-disable-line
         state.loadingError = error.message;// eslint-disable-line
+      })
+      .addCase(channelsActions.removeChannel, (state, { payload }) => {
+        const { ids, entities } = state;
+        const removeIds = ids.filter((messageId) => entities[messageId].channelId === payload);
+        messagesAdapter.removeMany(state, removeIds);
       });
   },
 });

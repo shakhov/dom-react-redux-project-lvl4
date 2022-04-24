@@ -13,16 +13,35 @@ import {
 
 import { useFormik } from 'formik';
 
+import useSocket from '../../hooks/useSocket.jsx';
+
 function RenameChannel({ channel, onHide }) {
   const inputRef = useRef();
+  const socket = useSocket();
 
   const formik = useFormik({
     initialValues: {
       name: channel.name,
     },
-    onSubmit: (values) => {
-      console.log(`Rename channel ${channel.name} to ${values.name}`);
-      onHide();
+    onSubmit: (values, { setSubmitting, setErrors }) => {
+      const data = {
+        ...channel,
+        name: values.name,
+      };
+
+      setSubmitting(true);
+
+      socket.renameChannel(
+        data,
+        (response) => {
+          setSubmitting(false);
+          onHide();
+        },
+        (error) => {
+          setSubmitting(false);
+          console.error(error.message);
+        },
+      );
     },
   });
 
@@ -44,13 +63,19 @@ function RenameChannel({ channel, onHide }) {
             <FormControl
               className="mb-3"
               name="name"
+              autoComplete="off"
               required
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.name}
+              disabled={formik.isSubmitting}
             />
           </FormGroup>
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
             Rename
           </Button>
         </form>

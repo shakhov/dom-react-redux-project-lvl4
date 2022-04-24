@@ -16,11 +16,19 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    newChannel: (state, { payload }) => {
+      channelsAdapter.addOne(state, payload);
+      state.currentChannelId = payload.id; // eslint-disable-line
+    },
     removeChannel: (state, { payload }) => {
       channelsAdapter.removeOne(state, payload);
       if (state.currentChannelId === payload) {
         state.currentChannelId = 1; // eslint-disable-line
       }
+    },
+    renameChannel: (state, { payload }) => {
+      const { id, name } = payload;
+      channelsAdapter.updateOne(state, { id, changes: { name } });
     },
     setCurrentChannelId: (state, { payload }) => {
       state.currentChannelId = payload; //eslint-disable-line

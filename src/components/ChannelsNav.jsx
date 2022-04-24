@@ -16,9 +16,7 @@ import {
 import modals from './modals/index.jsx';
 
 function ChannelItem({
-  channel,
-  onRename,
-  onDelete,
+  channel, onRename, onDelete,
 }) {
   const { id, name, removable } = channel;
 
@@ -58,7 +56,7 @@ function ChannelItem({
         />
       </ButtonGroup>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
+        <Dropdown.Item onClick={onDelete}>Remove</Dropdown.Item>
         <Dropdown.Item onClick={onRename}>Rename</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
