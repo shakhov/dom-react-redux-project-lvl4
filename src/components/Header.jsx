@@ -16,7 +16,7 @@ function Header() {
     <Navbar className="shadow-sm navba-expand-lg navbar-light bg-white p-3">
       <Container>
         <Navbar.Brand as={Link} to="/" className="fs-2">
-          Chat
+          Hexlet Chat
         </Navbar.Brand>
         <AuthButton />
       </Container>
