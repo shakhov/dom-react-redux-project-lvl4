@@ -40,6 +40,19 @@ module.exports = {
           { loader: 'sass-loader' },
         ],
       },
+      {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        type: 'asset/inline',
+        // use: [
+        //   {
+        //     loader: 'file-loader',
+        //     options: {
+        //       esModule: false,
+        //       name: 'images/[hash]-[name].[ext]',
+        //     },
+        //   },
+        // ],
+      },
     ],
   },
 };
