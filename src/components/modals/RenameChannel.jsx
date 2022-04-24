@@ -13,6 +13,7 @@ import {
 } from 'react-bootstrap';
 
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { useSelector } from 'react-redux';
 
@@ -33,6 +34,17 @@ function RenameChannel({ channel, onHide }) {
     initialValues: {
       name: channel.name,
     },
+    validationSchema: Yup.object({
+      name: Yup
+        .string()
+        .min(3, 'Channel name must be 3 to 20 characters')
+        .max(20, 'Channel name must be 3 to 20 characters')
+        .test(
+          'name exists',
+          'Channel name already exists',
+          (value) => !existingNames.includes(value.trim()),
+        ),
+    }),
     onSubmit: ({ name }, { setSubmitting, setErrors }) => {
       const data = {
         ...channel,
@@ -59,7 +71,7 @@ function RenameChannel({ channel, onHide }) {
     inputRef.current.select();
   }, []);
 
-  const isInvalidName = existingNames.includes(formik.values.name.trim());
+  const isNameValid = !(formik.touched.name && formik.errors.name);
   const networkError = formik.errors.network;
 
   return (
@@ -81,12 +93,13 @@ function RenameChannel({ channel, onHide }) {
               required
               ref={inputRef}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.name}
               disabled={formik.isSubmitting}
-              isInvalid={isInvalidName}
+              isInvalid={!isNameValid}
             />
             <FormControl.Feedback type="invalid">
-              {`Channel named "${formik.values.name}" exists`}
+              {!isNameValid && formik.errors.name}
             </FormControl.Feedback>
 
           </FormGroup>
@@ -119,7 +132,7 @@ function RenameChannel({ channel, onHide }) {
             ref={submitRef}
             variant="primary"
             type="submit"
-            disabled={formik.isSubmitting || isInvalidName}
+            disabled={formik.isSubmitting || !isNameValid}
           >
             Rename
           </Button>
