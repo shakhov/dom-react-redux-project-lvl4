@@ -10,6 +10,7 @@ import {
 import Header from './Header.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
+import SignUpPage from '../pages/SignUpPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 
 import useAuth from '../hooks/useAuth.jsx';
@@ -39,6 +40,10 @@ function Router() {
         <Route
           path="/login"
           element={<LoginPage />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUpPage />}
         />
         <Route
           path="*"
