@@ -28,7 +28,9 @@ function RenameChannel({ channel, onHide }) {
   const submitRef = useRef();
   const socket = useSocket();
 
-  const existingNames = useSelector(channelsSelectors.selectAll).map((channel) => channel.name);
+  const existingNames = useSelector(channelsSelectors.selectAll)
+        .map((item) => item.name)
+        .filter((name) => name !== channel.name);
 
   const formik = useFormik({
     initialValues: {
