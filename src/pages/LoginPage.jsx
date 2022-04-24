@@ -34,10 +34,12 @@ function LoginForm({ state }) {
   const { from } = location.state || state || { from: '/' };
 
   const loginSchema = Yup.object({
-    username: Yup.string()
-                 .required('Username is required'), // eslint-disable-line
-    password: Yup.string()
-                 .required('Password is required'), // eslint-disable-line
+    username: Yup
+      .string()
+      .required('Username is required'),
+    password: Yup
+      .string()
+      .required('Password is required'),
   });
 
   const formik = useFormik({
@@ -65,6 +67,7 @@ function LoginForm({ state }) {
 
   const isUsernameValid = !(formik.touched.username && formik.errors.username);
   const isPasswordValid = !(formik.touched.password && formik.errors.password);
+  const isFormValid = isUsernameValid && isPasswordValid;
 
   useEffect(() => {
     usernameRef.current.focus();
@@ -121,7 +124,12 @@ function LoginForm({ state }) {
           </Form.FloatingLabel>
         </Form.Group>
       </Form.Group>
-      <Button type="submit" variant="outline-primary" className="w-100 mb-3 p-2">
+      <Button
+        type="submit"
+        variant="outline-primary"
+        className="w-100 mb-3 p-2"
+        disabled={!isFormValid}
+      >
         Log In
       </Button>
     </Form>
