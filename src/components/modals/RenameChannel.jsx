@@ -9,24 +9,34 @@ import {
   FormGroup,
   FormControl,
   Button,
+  Overlay,
 } from 'react-bootstrap';
 
 import { useFormik } from 'formik';
+
+import { useSelector } from 'react-redux';
+
+import {
+  selectors as channelsSelectors,
+} from '../../slices/channelsSlice.js';
 
 import useSocket from '../../hooks/useSocket.jsx';
 
 function RenameChannel({ channel, onHide }) {
   const inputRef = useRef();
+  const submitRef = useRef();
   const socket = useSocket();
+
+  const existingNames = useSelector(channelsSelectors.selectAll).map((channel) => channel.name);
 
   const formik = useFormik({
     initialValues: {
       name: channel.name,
     },
-    onSubmit: (values, { setSubmitting, setErrors }) => {
+    onSubmit: ({ name }, { setSubmitting, setErrors }) => {
       const data = {
         ...channel,
-        name: values.name,
+        name: name.trim(),
       };
 
       setSubmitting(true);
@@ -39,7 +49,7 @@ function RenameChannel({ channel, onHide }) {
         },
         (error) => {
           setSubmitting(false);
-          console.error(error.message);
+          setErrors({ network: error });
         },
       );
     },
@@ -49,19 +59,23 @@ function RenameChannel({ channel, onHide }) {
     inputRef.current.select();
   }, []);
 
+  const isInvalidName = existingNames.includes(formik.values.name.trim());
+  const networkError = formik.errors.network;
+
   return (
     <Modal centered show>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>
           Rename channel&nbsp;
+          &quot;
           {channel.name}
+          &quot;
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
-          <FormGroup>
+          <FormGroup className="mb-3">
             <FormControl
-              className="mb-3"
               name="name"
               autoComplete="off"
               required
@@ -69,12 +83,43 @@ function RenameChannel({ channel, onHide }) {
               onChange={formik.handleChange}
               value={formik.values.name}
               disabled={formik.isSubmitting}
+              isInvalid={isInvalidName}
             />
+            <FormControl.Feedback type="invalid">
+              {`Channel named "${formik.values.name}" exists`}
+            </FormControl.Feedback>
+
           </FormGroup>
+          <Overlay
+            target={submitRef.current}
+            show={networkError ? true : false} // eslint-disable-line
+            placement="right"
+            offset={[0, 10]}
+          >
+            {({
+              placement, arrowProps, show: _show, popper, ...props
+            }) => (
+              <div
+                {...props} // eslint-disable-line
+                style={{
+                  position: 'absolute',
+                  backgroundColor: 'rgba(255, 50, 50, 0.85)',
+                  padding: '5px 10px',
+                  color: 'white',
+                  borderRadius: 4,
+                  zIndex: 1080,
+                  ...props.style,
+                }}
+              >
+                {networkError && networkError.message}
+              </div>
+            )}
+          </Overlay>
           <Button
+            ref={submitRef}
             variant="primary"
             type="submit"
-            disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting || isInvalidName}
           >
             Rename
           </Button>
