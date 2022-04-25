@@ -37,12 +37,13 @@ function AddChannel({ onHide }) {
     validationSchema: Yup.object({
       name: Yup
         .string()
+        .required('Channel name required')
         .min(3, 'Channel name must be 3 to 20 characters')
         .max(20, 'Channel name must be 3 to 20 characters')
         .test(
           'name exists',
           'Channel name already exists',
-          (value) => !existingNames.includes(value.trim()),
+          (value) => value && !existingNames.includes(value.trim()),
         ),
     }),
     onSubmit: ({ name }, { setSubmitting, setErrors }) => {
