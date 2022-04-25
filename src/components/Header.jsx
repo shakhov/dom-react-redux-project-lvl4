@@ -9,11 +9,15 @@ import {
   Link,
 } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 import AuthButton from './AuthButton.jsx';
 
 import ChatLogo from '../../assets/chat_logo.svg';
 
 function Header() {
+  const { t } = useTranslation();
+
   return (
     <Navbar className="shadow-sm navba-expand-lg navbar-light bg-white p-3">
       <Container>
@@ -25,7 +29,7 @@ function Header() {
             height={32}
             className="me-3"
           />
-          Hexlet Chat
+          {t('header.title')}
         </Navbar.Brand>
         <AuthButton />
       </Container>

@@ -7,12 +7,18 @@ import {
   Overlay,
 } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
+import { useSelector } from 'react-redux';
+
 import useSocket from '../../hooks/useSocket.jsx';
 
 function RemoveChannel({ channel, onHide }) {
   const socket = useSocket();
   const submitRef = useRef();
   const [errors, setErrors] = useState({});
+
+  const { t } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,10 +39,7 @@ function RemoveChannel({ channel, onHide }) {
     <Modal centered show>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>
-          Remove channel&nbsp;
-          &quot;
-          {channel.name}
-          &quot;
+          {t('modals.removeChannel.title', { name: channel.name })}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -63,7 +66,7 @@ function RemoveChannel({ channel, onHide }) {
                     ...props.style,
                   }}
                 >
-                  {networkError && networkError.message}
+                  {networkError && t('error.network')}
                 </div>
               )}
             </Overlay>
@@ -72,7 +75,7 @@ function RemoveChannel({ channel, onHide }) {
               variant="danger"
               type="submit"
             >
-              Remove
+              {t('modals.removeChannel.button.remove')}
             </Button>
           </FormGroup>
         </form>

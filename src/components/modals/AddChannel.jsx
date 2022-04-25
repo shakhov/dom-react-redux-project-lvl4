@@ -12,6 +12,8 @@ import {
   Overlay,
 } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -27,6 +29,8 @@ function AddChannel({ onHide }) {
   const inputRef = useRef();
   const submitRef = useRef();
   const socket = useSocket();
+
+  const { t } = useTranslation();
 
   const existingNames = useSelector(channelsSelectors.selectAll).map((channel) => channel.name);
 
@@ -79,7 +83,7 @@ function AddChannel({ onHide }) {
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>
-          Add new channel
+          {t('modals.addChannel.title')}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -121,7 +125,7 @@ function AddChannel({ onHide }) {
                   ...props.style,
                 }}
               >
-                {networkError && networkError.message}
+                {networkError && t('error.network')}
               </div>
             )}
           </Overlay>
@@ -131,7 +135,7 @@ function AddChannel({ onHide }) {
             type="submit"
             disabled={formik.isSubmitting || !isNameValid}
           >
-            Add
+            {t('modals.addChannel.button.add')}
           </Button>
         </form>
       </Modal.Body>

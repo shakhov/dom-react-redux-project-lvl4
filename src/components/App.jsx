@@ -1,8 +1,8 @@
 import React from 'react';
 
-import io from 'socket.io-client';
-
 import { Provider as ReduxProvider } from 'react-redux';
+
+import io from 'socket.io-client';
 import store from '../slices/index.js';
 
 import Router from './Router.jsx';

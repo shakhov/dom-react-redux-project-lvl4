@@ -7,6 +7,8 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
 import {
   selectors as channelsSelectors,
   actions as channelsActions,
@@ -19,6 +21,7 @@ function ChannelItem({
   channel, onRename, onDelete,
 }) {
   const { id, name, removable } = channel;
+  const { t } = useTranslation();
 
   if (!removable) {
     return (
@@ -27,7 +30,6 @@ function ChannelItem({
           as={Button}
           className="text-start"
           eventKey={id}
-          title={`Chat ${name}`}
           variant="primary"
         >
           <span className="me-3">#</span>
@@ -56,8 +58,8 @@ function ChannelItem({
         />
       </ButtonGroup>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={onRename}>✎ Rename</Dropdown.Item>
-        <Dropdown.Item onClick={onDelete}>✖ Remove</Dropdown.Item>
+        <Dropdown.Item onClick={onRename}>✎ {t('channels.rename')}</Dropdown.Item>
+        <Dropdown.Item onClick={onDelete}>✖ {t('channels.remove')}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -68,6 +70,8 @@ function ChannelsNav({
 }) {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+
+  const { t } = useTranslation();
 
   const [modalState, setModalState] = useState({ modal: null, channel: null });
   const ActiveModal = modalState.modal;
@@ -81,7 +85,9 @@ function ChannelsNav({
   return (
     <>
       <div className="d-flex justify-content-between align-content-center mb-2 ps-4 pe-2">
-        <span>Channels</span>
+        <span>
+          {t('channels.title')}
+        </span>
         <Button
           className="sm p-0 btn-group-vertical"
           variant="text-primary"

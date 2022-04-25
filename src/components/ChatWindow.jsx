@@ -14,6 +14,8 @@ import {
   useSelector,
 } from 'react-redux';
 
+import { useTranslation } from 'react-i18next';
+
 import cn from 'classnames';
 
 import {
@@ -31,6 +33,8 @@ function ChatHeader({ currentChannel, channelMessages }) {
   const messageCount = channelMessages?.length || 0;
   const channelName = currentChannel?.name;
 
+  const { t } = useTranslation();
+
   return (
     <div className="bg-light mb-0 p-3 shadow-sm small">
       <p className="m-0">
@@ -40,9 +44,7 @@ function ChatHeader({ currentChannel, channelMessages }) {
         </b>
       </p>
       <span className="text-muted">
-        {messageCount}
-        &nbsp;
-        messages
+        {t('chat.messages', { count: messageCount })}
       </span>
     </div>
   );

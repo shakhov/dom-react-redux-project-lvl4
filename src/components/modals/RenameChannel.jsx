@@ -12,6 +12,8 @@ import {
   Overlay,
 } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -27,6 +29,8 @@ function RenameChannel({ channel, onHide }) {
   const inputRef = useRef();
   const submitRef = useRef();
   const socket = useSocket();
+
+  const { t } = useTranslation();
 
   const existingNames = useSelector(channelsSelectors.selectAll)
         .map((item) => item.name)
@@ -81,10 +85,7 @@ function RenameChannel({ channel, onHide }) {
     <Modal centered show>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>
-          Rename channel&nbsp;
-          &quot;
-          {channel.name}
-          &quot;
+          {t('modals.renameChannel.title', { name: channel.name })}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -127,7 +128,7 @@ function RenameChannel({ channel, onHide }) {
                   ...props.style,
                 }}
               >
-                {networkError && networkError.message}
+                {networkError && t('error.network')}
               </div>
             )}
           </Overlay>
@@ -137,7 +138,7 @@ function RenameChannel({ channel, onHide }) {
             type="submit"
             disabled={formik.isSubmitting || !isNameValid}
           >
-            Rename
+            {t('modals.renameChannel.button.rename')}
           </Button>
         </form>
       </Modal.Body>

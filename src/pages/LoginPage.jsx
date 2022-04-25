@@ -14,6 +14,8 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -29,6 +31,8 @@ function LoginForm({ state }) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const usernameRef = useRef();
   const [authFailed, setAuthFailed] = useState(false);
   const { from } = location.state || state || { from: '/' };
@@ -36,10 +40,10 @@ function LoginForm({ state }) {
   const loginSchema = Yup.object({
     username: Yup
       .string()
-      .required('Username is required'),
+      .required(t('forms.username.validation.required')),
     password: Yup
       .string()
-      .required('Password is required'),
+      .required(t('forms.password.validation.required')),
   });
 
   const formik = useFormik({
@@ -79,12 +83,12 @@ function LoginForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label="Username"
+            label={t('forms.username.label')}
           >
             <Form.Control
               id="username"
               name="username"
-              placeholder="Username"
+              placeholder={t('forms.username.placeholder')}
               autoComplete="username"
               required
               ref={usernameRef}
@@ -101,13 +105,13 @@ function LoginForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label="Password"
+            label={t('forms.password.label')}
           >
             <Form.Control
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t('forms.password.placeholder')}
               autoComplete="password"
               required
               isInvalid={authFailed || !isPasswordValid}
@@ -119,7 +123,7 @@ function LoginForm({ state }) {
               {!isPasswordValid && formik.errors.password}
             </Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
-              {authFailed && 'Wrong username or password'}
+              {authFailed && t('error.authFailed')}
             </Form.Control.Feedback>
           </Form.FloatingLabel>
         </Form.Group>
@@ -130,7 +134,7 @@ function LoginForm({ state }) {
         className="w-100 mb-3 p-2"
         disabled={!isFormValid}
       >
-        Log In
+        {t('login.button.login')}
       </Button>
     </Form>
   );
@@ -138,6 +142,7 @@ function LoginForm({ state }) {
 
 function LoginPage({ state }) {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   const cardContents = (auth.loggedIn)
         ? <AuthButton /> // eslint-disable-line
@@ -149,16 +154,20 @@ function LoginPage({ state }) {
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow">
             <Card.Header className="text-center p-3">
-              <h2>Log In</h2>
+              <h2>
+                {t('login.title')}
+              </h2>
             </Card.Header>
             <Card.Body className="text-center p-5">
               {cardContents}
             </Card.Body>
             <Card.Footer className="text-center p-3">
-              <span>No account?</span>
+              <span>
+                {t('login.noAccount')}
+              </span>
               &nbsp;
               <a href="/signup">
-                Register
+                {t('login.signup')}
               </a>
             </Card.Footer>
           </Card>

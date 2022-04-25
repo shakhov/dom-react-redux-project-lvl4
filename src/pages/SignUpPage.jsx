@@ -14,6 +14,8 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -29,6 +31,8 @@ function SignUpForm({ state }) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const usernameRef = useRef();
   const [signupError, setSignupError] = useState(null);
   const { from } = location.state || state || { from: '/' };
@@ -36,18 +40,17 @@ function SignUpForm({ state }) {
   const loginSchema = Yup.object({
     username: Yup
       .string()
-      .required('Username is required')
-      .min(3, 'Username length must be 3 to 20 characters')
-      .max(20, 'Username length must be 3 to 20 characters'),
+      .required(t('forms.username.validation.required'))
+      .min(3, t('forms.username.validation.lengthRange', { min: 3, max: 20 }))
+      .max(20, t('forms.username.validation.lengthRange', { min: 3, max: 20 })),
     password: Yup
       .string()
-
-      .required('Password is required')
-      .min(6, 'Password length must be at least 6 characters'),
+      .required(t('forms.password.validation.required'))
+      .min(6, t('forms.password.validation.lengthMin', { min: 6 })),
     confirmPassword: Yup
       .string()
-      .required('Password is required')
-      .oneOf([Yup.ref('password')], 'Passwords should match'),
+      .required(t('forms.confirmPassword.validation.required'))
+      .oneOf([Yup.ref('password')], t('forms.confirmPassword.validation.match')),
   });
 
   const formik = useFormik({
@@ -67,11 +70,12 @@ function SignUpForm({ state }) {
         if (error.isAxiosError && error.response.status === 409) {
           setSignupError({
             status: 409,
-            message: `User "${username}" is already registered`,
+            message: t('error.alreadyRegistered', { username: username }),
           });
           usernameRef.current.select();
           return;
         }
+        // TODO network error
         throw (error);
       }
     },
@@ -94,12 +98,12 @@ function SignUpForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label="Username"
+            label={t('forms.username.label')}
           >
             <Form.Control
               id="username"
               name="username"
-              placeholder="Username"
+              placeholder={t('frorms.username.placeholder')}
               autoComplete="username"
               required
               ref={usernameRef}
@@ -119,13 +123,13 @@ function SignUpForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label="Password"
+            label={t('forms.password.label')}
           >
             <Form.Control
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder={t('forms.password.placeholder')}
               autoComplete="new-password"
               required
               isInvalid={!isPasswordValid}
@@ -141,13 +145,13 @@ function SignUpForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label="Confirm password"
+            label={t('forms.confirmPassword.label')}
           >
             <Form.Control
               type="password"
               id="confirmPassword"
               name="confirmPassword"
-              placeholder="Confirm password"
+              placeholder={t('forms.confirmPassword.placeholder')}
               autoComplete="new-password"
               required
               isInvalid={!isConfirmPasswordValid}
@@ -167,7 +171,7 @@ function SignUpForm({ state }) {
         className="w-100 mb-3 p-2"
         disabled={!isFormValid}
       >
-        Sign In
+        {t('signup.button.signup')}
       </Button>
     </Form>
   );
@@ -175,6 +179,7 @@ function SignUpForm({ state }) {
 
 function SignUpPage({ state }) {
   const auth = useAuth();
+  const { t } = useTranslation();
 
   const cardContents = (auth.loggedIn)
         ? <AuthButton /> // eslint-disable-line
@@ -186,7 +191,9 @@ function SignUpPage({ state }) {
         <Col className="col-12 col-md-8 col-xxl-6">
           <Card className="shadow">
             <Card.Header className="text-center p-3">
-              <h2>Register</h2>
+              <h2>
+                {t('signup.title')}
+              </h2>
             </Card.Header>
             <Card.Body className="text-center p-5">
               {cardContents}

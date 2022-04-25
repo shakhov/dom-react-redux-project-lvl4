@@ -8,6 +8,7 @@ import '../assets/application.scss';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 
+import './i18n.js';
 import App from './components/App.jsx';
 
 const render = () => {

@@ -11,6 +11,8 @@ import {
   Overlay,
 } from 'react-bootstrap';
 
+import { useTranslation } from 'react-i18next';
+
 import { useFormik } from 'formik';
 
 import useSocket from '../hooks/useSocket.jsx';
@@ -18,6 +20,8 @@ import useSocket from '../hooks/useSocket.jsx';
 function SendMessageForm({ currentUsername, currentChannelId }) {
   const messageRef = useRef();
   const socket = useSocket();
+
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -82,14 +86,14 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
               ...props.style,
             }}
           >
-            {networkError && networkError.message}
+            {networkError && t('error.network')}
           </div>
         )}
       </Overlay>
       <FormControl
         id="message"
         name="message"
-        placeholder="Your message..."
+        placeholder={t('chat.form.placeholder.message')}
         className="border-0 p-0 ps-2 form-control"
         type="text"
         required
@@ -102,7 +106,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
         type="submit"
         disabled={formik.isSubmitting}
       >
-        Send
+        {t('chat.form.button.send')}
       </Button>
     </Form>
   );
