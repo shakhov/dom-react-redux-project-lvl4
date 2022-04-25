@@ -9,6 +9,9 @@ import {
 
 import { useTranslation } from 'react-i18next';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   selectors as channelsSelectors,
   actions as channelsActions,
@@ -84,6 +87,7 @@ function ChannelsNav({
 
   return (
     <>
+      <ToastContainer />
       <div className="d-flex justify-content-between align-content-center mb-2 ps-4 pe-2">
         <span>
           {t('channels.title')}

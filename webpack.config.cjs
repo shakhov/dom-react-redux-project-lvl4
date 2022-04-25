@@ -43,15 +43,10 @@ module.exports = {
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
         type: 'asset/inline',
-        // use: [
-        //   {
-        //     loader: 'file-loader',
-        //     options: {
-        //       esModule: false,
-        //       name: 'images/[hash]-[name].[ext]',
-        //     },
-        //   },
-        // ],
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

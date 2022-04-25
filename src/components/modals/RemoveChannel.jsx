@@ -4,36 +4,65 @@ import {
   Modal,
   FormGroup,
   Button,
-  Overlay,
 } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useSelector } from 'react-redux';
 
 import useSocket from '../../hooks/useSocket.jsx';
 
+const toastOptions = {
+  position: 'bottom-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+};
+
 function RemoveChannel({ channel, onHide }) {
   const socket = useSocket();
-  const submitRef = useRef();
-  const [errors, setErrors] = useState({});
-
   const { t } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const toastId = toast.loading(t('notification.channel.removing'), toastOptions);
+
     socket.removeChannel(
       channel,
-      (response) => {
+      (/* response */) => {
+        toast.update(
+          toastId,
+          {
+            ...toastOptions,
+            render: t('notification.channel.removed'),
+            type: 'success',
+            isLoading: false,
+            closeButton: true,
+          },
+        );
         onHide();
       },
-      (error) => {
-        setErrors({ network: error });
+      (/* error */) => {
+        toast.update(
+          toastId,
+          {
+            ...toastOptions,
+            render: t('error.network'),
+            type: 'error',
+            isLoading: false,
+            closeButton: true,
+          },
+        );
       },
     );
   };
-
-  const networkError = errors.network;
 
   return (
     <Modal centered show>
@@ -45,33 +74,7 @@ function RemoveChannel({ channel, onHide }) {
       <Modal.Body>
         <form onSubmit={handleSubmit}>
           <FormGroup>
-            <Overlay
-              target={submitRef.current}
-              show={networkError ? true : false} // eslint-disable-line
-              placement="right"
-              offset={[0, 10]}
-            >
-              {({
-                placement, arrowProps, show: _show, popper, ...props
-              }) => (
-                <div
-                  {...props} // eslint-disable-line
-                  style={{
-                    position: 'absolute',
-                    backgroundColor: 'rgba(255, 50, 50, 0.85)',
-                    padding: '5px 10px',
-                    color: 'white',
-                    borderRadius: 4,
-                    zIndex: 1080,
-                    ...props.style,
-                  }}
-                >
-                  {networkError && t('error.network')}
-                </div>
-              )}
-            </Overlay>
             <Button
-              ref={submitRef}
               variant="danger"
               type="submit"
             >

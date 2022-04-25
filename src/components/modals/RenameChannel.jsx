@@ -9,13 +9,15 @@ import {
   FormGroup,
   FormControl,
   Button,
-  Overlay,
 } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useSelector } from 'react-redux';
 
@@ -25,9 +27,18 @@ import {
 
 import useSocket from '../../hooks/useSocket.jsx';
 
+const toastOptions = {
+  position: 'bottom-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+};
+
 function RenameChannel({ channel, onHide }) {
   const inputRef = useRef();
-  const submitRef = useRef();
   const socket = useSocket();
 
   const { t } = useTranslation();
@@ -52,23 +63,43 @@ function RenameChannel({ channel, onHide }) {
           (value) => value && !existingNames.includes(value.trim()),
         ),
     }),
-    onSubmit: ({ name }, { setSubmitting, setErrors }) => {
+    onSubmit: ({ name }, { setSubmitting }) => {
       const data = {
         ...channel,
         name: name.trim(),
       };
 
       setSubmitting(true);
+      const toastId = toast.loading(t('notification.channel.renaming'), toastOptions);
 
       socket.renameChannel(
         data,
-        (response) => {
+        (/* response */) => {
           setSubmitting(false);
+          toast.update(
+            toastId,
+            {
+              ...toastOptions,
+              render: t('notification.channel.renamed'),
+              type: 'success',
+              isLoading: false,
+              closeButton: true,
+            },
+          );
           onHide();
         },
-        (error) => {
+        (/* error */) => {
           setSubmitting(false);
-          setErrors({ network: error });
+          toast.update(
+            toastId,
+            {
+              ...toastOptions,
+              render: t('error.network'),
+              type: 'error',
+              isLoading: false,
+              closeButton: true,
+            },
+          );
         },
       );
     },
@@ -108,33 +139,7 @@ function RenameChannel({ channel, onHide }) {
             </FormControl.Feedback>
 
           </FormGroup>
-          <Overlay
-            target={submitRef.current}
-            show={networkError ? true : false} // eslint-disable-line
-            placement="right"
-            offset={[0, 10]}
-          >
-            {({
-              placement, arrowProps, show: _show, popper, ...props
-            }) => (
-              <div
-                {...props} // eslint-disable-line
-                style={{
-                  position: 'absolute',
-                  backgroundColor: 'rgba(255, 50, 50, 0.85)',
-                  padding: '5px 10px',
-                  color: 'white',
-                  borderRadius: 4,
-                  zIndex: 1080,
-                  ...props.style,
-                }}
-              >
-                {networkError && t('error.network')}
-              </div>
-            )}
-          </Overlay>
           <Button
-            ref={submitRef}
             variant="primary"
             type="submit"
             disabled={formik.isSubmitting || !isNameValid}
