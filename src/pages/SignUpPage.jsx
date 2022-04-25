@@ -70,7 +70,7 @@ function SignUpForm({ state }) {
         if (error.isAxiosError && error.response.status === 409) {
           setSignupError({
             status: 409,
-            message: t('error.alreadyRegistered', { username: username }),
+            message: t('error.userExists', { username: username }),
           });
           usernameRef.current.select();
           return;

@@ -43,12 +43,12 @@ function RenameChannel({ channel, onHide }) {
     validationSchema: Yup.object({
       name: Yup
         .string()
-        .required('Channel name required')
-        .min(3, 'Channel name must be 3 to 20 characters')
-        .max(20, 'Channel name must be 3 to 20 characters')
+        .required(t('forms.channelName.validation.required'))
+        .min(3, t('forms.channelName.validation.lengthRange', { min: 3, max: 20 }))
+        .max(20, t('forms.channelName.validation.lengthRange', { min: 3, max: 20 }))
         .test(
           'name exists',
-          'Channel name already exists',
+          t('forms.channelName.validation.exists'),
           (value) => value && !existingNames.includes(value.trim()),
         ),
     }),
@@ -93,6 +93,7 @@ function RenameChannel({ channel, onHide }) {
           <FormGroup className="mb-3">
             <FormControl
               name="name"
+              placeholder={t('forms.channelName.placeholder')}
               autoComplete="off"
               required
               ref={inputRef}
