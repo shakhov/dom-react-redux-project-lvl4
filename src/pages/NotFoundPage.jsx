@@ -23,6 +23,6 @@ function NotFoundPage() {
       </Card.Footer>
     </Card>
   );
-};
+}
 
 export default NotFoundPage;

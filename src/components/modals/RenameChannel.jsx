@@ -46,9 +46,8 @@ function RenameChannel({ channel, onHide }) {
 
   const { t } = useTranslation();
 
-  const existingNames = useSelector(channelsSelectors.selectAll)
-        .map((item) => item.name)
-        .filter((name) => name !== channel.name);
+  const channels = useSelector(channelsSelectors.selectAll);
+  const existingNames = channels.map((item) => item.name).filter((name) => name !== channel.name);
 
   const formik = useFormik({
     initialValues: {
@@ -65,7 +64,7 @@ function RenameChannel({ channel, onHide }) {
           t('forms.channelName.validation.exists'),
           (value) => value && !existingNames.includes(value.trim()),
         )
-       .test(
+        .test(
           'profanity',
           t('forms.channelName.validation.profanity'),
           (value) => value && !filter.check(value),
@@ -118,7 +117,6 @@ function RenameChannel({ channel, onHide }) {
   }, []);
 
   const isNameValid = !(formik.touched.name && formik.errors.name);
-  const networkError = formik.errors.network;
 
   return (
     <Modal centered show>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import {
   Modal,
@@ -10,8 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { useSelector } from 'react-redux';
 
 import useSocket from '../../hooks/useSocket.jsx';
 

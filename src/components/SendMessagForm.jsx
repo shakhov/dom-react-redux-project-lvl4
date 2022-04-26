@@ -38,7 +38,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
 
       socket.newMessage(
         message,
-        (response) => {
+        () => {
           setSubmitting(false);
           resetForm();
           messageRef.current.focus();
