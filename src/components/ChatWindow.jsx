@@ -8,6 +8,7 @@ import {
   Container,
   Row,
   Col,
+  Spinner,
 } from 'react-bootstrap';
 
 import {
@@ -25,6 +26,8 @@ import {
 
 import {
   selectMessagesByChannelId,
+  selectLoadingStatus,
+  selectLoadingError,
 } from '../slices/messagesSlice.js';
 
 import SendMessageForm from './SendMessagForm.jsx';
@@ -106,12 +109,47 @@ function ChatMessages({ channelMessages, currentUsername }) {
   );
 }
 
+function LoadingSpinner() {
+  const { t } = useTranslation();
+
+  return (
+      <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+      <Spinner animation="border" role="status" className="me-3">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+      <b>
+        {t('notification.messages.loading')}
+      </b>
+    </div>
+  );
+}
+
+function Error({ message }) {
+  return (
+    <>
+      <h1>Error</h1>
+      <p>{message}</p>
+    </>
+  );
+}
+
 function ChatWindow({
   currentChannelId = useSelector(selectCurrentChannelId),
   currentUsername,
 }) {
   const currentChannel = useSelector(selectChannelById(currentChannelId));
   const channelMessages = useSelector(selectMessagesByChannelId(currentChannelId));
+
+  const loadingStatus = useSelector(selectLoadingStatus);
+  const loadingError = useSelector(selectLoadingError);
+
+  if (loadingStatus === 'loading') {
+    return <LoadingSpinner />;
+  }
+
+  if (loadingStatus === 'error') {
+    return <Error message={loadingError} />;
+  }
 
   return (
     <div className="d-flex flex-column h-100">

@@ -113,6 +113,12 @@ export default {
         removing: 'Удаление канала...',
         removed: 'Канал удалён',
       },
+      channels: {
+        loading: 'Каналы загружаются...',
+      },
+      messages: {
+        loading: 'Сообщения загружаются...',
+      },
     },
   },
 };

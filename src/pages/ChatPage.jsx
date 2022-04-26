@@ -10,33 +10,14 @@ import {
 } from 'react-bootstrap';
 
 import {
-  useSelector,
   useDispatch,
 } from 'react-redux';
 
 import useAuth from '../hooks/useAuth.jsx';
 import fetchData from '../slices/fetchData.js';
 
-import {
-  selectLoadingStatus,
-  selectLoadingError,
-} from '../slices/channelsSlice.js';
-
 import ChannelsNav from '../components/ChannelsNav.jsx';
 import ChatWindow from '../components/ChatWindow.jsx';
-
-function LoadingSpinner() {
-  return <h1>Loading...</h1>;
-}
-
-function Error({ message }) {
-  return (
-    <>
-      <h1>Error</h1>
-      <p>{message}</p>
-    </>
-  );
-}
 
 function ChatPage() {
   const auth = useAuth();
@@ -45,22 +26,11 @@ function ChatPage() {
   const { userId } = auth;
   const currentUsername = userId.username;
 
-  const loadingStatus = useSelector(selectLoadingStatus);
-  const loadingError = useSelector(selectLoadingError);
-
   useEffect(() => {
     const { token } = auth.userId;
     const header = { Authorization: `Bearer ${token}` };
     dispatch(fetchData({ header }));
   }, []);
-
-  if (loadingStatus === 'loading') {
-    return <LoadingSpinner />;
-  }
-
-  if (loadingStatus === 'error') {
-    return <Error message={loadingError} />;
-  }
 
   return (
     <Container className="h-100 overflow-hidden rounded my-4 shadow">

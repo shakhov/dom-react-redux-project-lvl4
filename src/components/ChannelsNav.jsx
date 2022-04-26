@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+
 import {
   Button,
   ButtonGroup,
   Nav,
   Dropdown,
+  Spinner,
 } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
@@ -13,9 +14,16 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
+  useSelector,
+  useDispatch,
+} from 'react-redux';
+
+import {
   selectors as channelsSelectors,
   actions as channelsActions,
   selectCurrentChannelId,
+  selectLoadingStatus,
+  selectLoadingError,
 } from '../slices/channelsSlice.js';
 
 import modals from './modals/index.jsx';
@@ -61,10 +69,40 @@ function ChannelItem({
         />
       </ButtonGroup>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={onRename}>✎ {t('channels.rename')}</Dropdown.Item>
-        <Dropdown.Item onClick={onDelete}>✖ {t('channels.remove')}</Dropdown.Item>
+        <Dropdown.Item onClick={onRename}>
+          ✎&nbsp;
+          {t('channels.rename')}
+        </Dropdown.Item>
+        <Dropdown.Item onClick={onDelete}>
+          ✖&nbsp;
+          {t('channels.remove')}
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
+  );
+}
+
+function LoadingSpinner() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+      <Spinner animation="border" role="status" className="me-3">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+      <b>
+        {t('notification.channels.loading')}
+      </b>
+    </div>
+  );
+}
+
+function Error({ message }) {
+  return (
+    <>
+      <h1>Error</h1>
+      <p>{message}</p>
+    </>
   );
 }
 
@@ -79,11 +117,22 @@ function ChannelsNav({
   const [modalState, setModalState] = useState({ modal: null, channel: null });
   const ActiveModal = modalState.modal;
 
+  const loadingStatus = useSelector(selectLoadingStatus);
+  const loadingError = useSelector(selectLoadingError);
+
   const hideModal = () => setModalState({ modal: null, channel: null });
 
   const handleSelect = (eventKey) => {
     dispatch(channelsActions.setCurrentChannelId(Number(eventKey)));
   };
+
+  if (loadingStatus === 'loading') {
+    return <LoadingSpinner />;
+  }
+
+  if (loadingStatus === 'error') {
+    return <Error message={loadingError} />;
+  }
 
   return (
     <>
