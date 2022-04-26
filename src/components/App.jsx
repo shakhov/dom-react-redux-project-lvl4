@@ -2,6 +2,11 @@ import React from 'react';
 
 import { Provider as ReduxProvider } from 'react-redux';
 
+import {
+  Provider as RollbarProvider,
+  ErrorBoundary
+} from '@rollbar/react';
+
 import filter from 'leo-profanity';
 
 import io from 'socket.io-client';
@@ -54,6 +59,22 @@ const initFilter = (...languages) => (
   languages.forEach((lng) => filter.add(filter.getDictionary(lng)))
 );
 
+const rollbarConfig = {
+  accessToken: '31776f3c10b64289a413deafc9643f90',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  payload: {
+    environment: 'production',
+    context: {
+      javascript: {
+        source_map_enabled: true,
+        code_version: '0.0.1',
+        guess_uncaught_frames: true,
+      },
+    },
+  },
+};
+
 function App() {
   const socket = io();
   const socketApi = initSocket(socket, store);
@@ -61,17 +82,21 @@ function App() {
   initFilter('ru', 'en');
 
   return (
-    <SocketProvider socket={socketApi}>
-      <ReduxProvider store={store}>
-        <AuthProvider>
-          <FilterProvider filter={filter}>
-            <div className="d-flex flex-column h-100">
-              <Router />
-            </div>
-          </FilterProvider>
-        </AuthProvider>
-      </ReduxProvider>
-    </SocketProvider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <SocketProvider socket={socketApi}>
+          <ReduxProvider store={store}>
+            <AuthProvider>
+              <FilterProvider filter={filter}>
+                <div className="d-flex flex-column h-100">
+                  <Router />
+                </div>
+              </FilterProvider>
+            </AuthProvider>
+          </ReduxProvider>
+        </SocketProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 }
 
