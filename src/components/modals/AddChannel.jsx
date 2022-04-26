@@ -21,6 +21,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useSelector } from 'react-redux';
 
+import useFilter from '../../hooks/useFilter.jsx';
+
 import {
   selectors as channelsSelectors,
 } from '../../slices/channelsSlice.js';
@@ -40,6 +42,7 @@ const toastOptions = {
 function AddChannel({ onHide }) {
   const inputRef = useRef();
   const socket = useSocket();
+  const filter = useFilter();
 
   const { t } = useTranslation();
 
@@ -59,6 +62,11 @@ function AddChannel({ onHide }) {
           'name exists',
           t('forms.channelName.validation.exists'),
           (value) => value && !existingNames.includes(value.trim()),
+        )
+        .test(
+          'profanity',
+          t('forms.channelName.validation.profanity'),
+          (value) => value && !filter.check(value),
         ),
     }),
     onSubmit: ({ name }, { setSubmitting }) => {
