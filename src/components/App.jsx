@@ -2,12 +2,15 @@ import React from 'react';
 
 import { Provider as ReduxProvider } from 'react-redux';
 
+import filter from 'leo-profanity';
+
 import io from 'socket.io-client';
 import store from '../slices/index.js';
 
 import Router from './Router.jsx';
 import AuthProvider from '../providers/AuthProvider.jsx';
 import SocketProvider from '../providers/SocketProvider.jsx';
+import FilterProvider from '../providers/FilterProvider.jsx';
 
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
@@ -47,17 +50,25 @@ const initSocket = (socket, socketStore) => {
   return api;
 };
 
+const initFilter = (...languages) => (
+  languages.forEach((lng) => filter.add(filter.getDictionary(lng)))
+);
+
 function App() {
   const socket = io();
   const socketApi = initSocket(socket, store);
+
+  initFilter('ru', 'en');
 
   return (
     <SocketProvider socket={socketApi}>
       <ReduxProvider store={store}>
         <AuthProvider>
-          <div className="d-flex flex-column h-100">
-            <Router />
-          </div>
+          <FilterProvider filter={filter}>
+            <div className="d-flex flex-column h-100">
+              <Router />
+            </div>
+          </FilterProvider>
         </AuthProvider>
       </ReduxProvider>
     </SocketProvider>

@@ -19,6 +19,8 @@ import { useTranslation } from 'react-i18next';
 
 import cn from 'classnames';
 
+import useFilter from '../hooks/useFilter.jsx';
+
 import {
   selectCurrentChannelId,
   selectChannelById,
@@ -56,6 +58,8 @@ function ChatHeader({ currentChannel, channelMessages }) {
 function Message({ isCurrentUser, message }) {
   const { username, body } = message;
 
+  const filter = useFilter();
+
   const rowClassName = cn(
     'w-100', 'd-flex', 'flex-row', // eslint-disable-line
     {
@@ -80,7 +84,7 @@ function Message({ isCurrentUser, message }) {
             {username}
             :&nbsp;
           </b>
-          {body}
+          {filter.clean(body)}
         </div>
       </Col>
     </Row>
