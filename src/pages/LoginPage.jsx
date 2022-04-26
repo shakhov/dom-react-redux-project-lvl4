@@ -40,7 +40,7 @@ function LoginForm({ state }) {
   const loginSchema = Yup.object({
     username: Yup
       .string()
-      .required(t('forms.username.validation.required')),
+      .required(t('forms.login.validation.required')),
     password: Yup
       .string()
       .required(t('forms.password.validation.required')),
@@ -83,12 +83,12 @@ function LoginForm({ state }) {
         <Form.Group>
           <Form.FloatingLabel
             className="mb-4"
-            label={t('forms.username.label')}
+            label={t('forms.login.label')}
           >
             <Form.Control
               id="username"
               name="username"
-              placeholder={t('forms.username.placeholder')}
+              placeholder={t('forms.login.placeholder')}
               autoComplete="username"
               required
               ref={usernameRef}

@@ -65,25 +65,29 @@ export default {
       },
     },
     forms: {
+      login: {
+        label: 'Ваш ник',
+        placeholder: 'Ваш ник',
+      },
       username: {
         label: 'Имя пользователя',
-        placeholder: 'Введите имя пользователя...',
+        placeholder: 'Имя пользователя',
         validation: {
           required: 'Необходимо ввести имя пользователя',
-          lengthRange: 'Длина имени пользователя должна быть от {{min}} до {{max}} символов',
+          lengthRange: 'От {{min}} до {{max}} символов',
         },
       },
       password: {
         label: 'Пароль',
-        placeholder: 'Введите пароль...',
+        placeholder: 'Пароль',
         validation: {
           required: 'Необходимо ввести пароль',
-          lengthMin: 'Длина пароля должна быть не менее {{min}} символов',
+          lengthMin: 'Не менее {{min}} символов',
         },
       },
       confirmPassword: {
         label: 'Подтвердите парль',
-        placeholder: 'Подтвердите пароль...',
+        placeholder: 'Подтвердите пароль',
         validation: {
           required: 'Необходимо ввести пароль',
           match: 'Пароли должны совпадать',
@@ -101,7 +105,7 @@ export default {
       },
     },
     error: {
-      network: 'Ошибка сети: время ожидания истекло',
+      network: 'Ошибка соединения',
       userExists: 'Пользователь "{{username}}" уже зарегистрирован',
       authFailed: 'Неверные имя пользователя или пароль',
     },
