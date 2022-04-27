@@ -62,7 +62,7 @@ export default {
       renameChannel: {
         title: 'Переименовать канал "{{name}}"',
         button: {
-          rename: 'Переименовать',
+          rename: 'Отправить',
         },
       },
     },
