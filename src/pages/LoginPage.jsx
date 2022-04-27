@@ -81,7 +81,7 @@ function LoginForm({ state }) {
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group>
         <Form.FloatingLabel
-          controlId="password"
+          controlId="username"
           className="mb-4"
           label={t('forms.login.label')}
         >
