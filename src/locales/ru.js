@@ -89,7 +89,7 @@ export default {
         },
       },
       confirmPassword: {
-        label: 'Подтвердите парль',
+        label: 'Подтвердите пароль',
         placeholder: 'Подтвердите пароль',
         validation: {
           required: 'Необходимо ввести пароль',
