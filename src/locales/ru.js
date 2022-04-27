@@ -4,8 +4,8 @@ export default {
       title: 'Hexlet Chat',
     },
     auth: {
-      login: 'Войти',
-      logout: 'Выйти',
+      login: 'Вход',
+      logout: 'Выход',
       loggedAs: 'Вы вошли как ',
     },
     login: {
