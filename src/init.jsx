@@ -24,13 +24,52 @@ import { actions as channelsActions } from './slices/channelsSlice.js';
 import { actions as messagesActions } from './slices/messagesSlice.js';
 
 const initSocket = (socket, socketStore) => {
-  const emitWithAcknowledgement = (event, delay = 5000) => (data, onSuccess, onTimeout) => (
-    socket.timeout(delay).emit(
+  // Starting with Socket.IO v4.4.0, you can now assign a timeout to each emit:
+  // const emitWithAcknowledgement = (event, delay = 5000) => (data, onSuccess, onTimeout) => (
+  //   socket.timeout(delay).emit(
+  //     event,
+  //     data,
+  //     (error, response) => ((error) ? onTimeout(error) : onSuccess(response)),
+  //   )
+  // );
+
+  // const withTimeout = (onSuccess, onTimeout, timeout = 5000) => {
+  //   let called = false;
+
+  //   const timer = setTimeout(() => {
+  //     if (called) return;
+  //     called = true;
+  //     onTimeout();
+  //   }, timeout);
+
+  //   return (...args) => {
+  //     if (called) return;
+  //     called = true;
+  //     clearTimeout(timer);
+  //     onSuccess.apply(this, args);
+  //   };
+  // };
+
+  const emitWithAcknowledgement = (event, delay = 5000) => (data, onSuccess, onTimeout) => {
+    const status = { called: false };
+
+    const timer = setTimeout(() => {
+      if (status.called) return;
+      status.called = true;
+      onTimeout(new Error('timed out'));
+    }, delay);
+
+    return socket.emit(
       event,
       data,
-      (error, response) => ((error) ? onTimeout(error) : onSuccess(response)),
-    )
-  );
+      (response) => {
+        if (status.called) return;
+        status.called = true;
+        clearTimeout(timer);
+        onSuccess(response);
+      },
+    );
+  };
 
   const api = {
     newChannel: emitWithAcknowledgement('newChannel'),
