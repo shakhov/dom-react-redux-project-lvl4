@@ -130,6 +130,8 @@ function RenameChannel({ channel, onHide }) {
           <FormGroup className="mb-3">
             <FormControl
               name="name"
+              label={t('forms.channelName.label')}
+              aria-label={t('forms.channelName.label')}
               placeholder={t('forms.channelName.placeholder')}
               autoComplete="off"
               required
