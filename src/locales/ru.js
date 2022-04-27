@@ -68,6 +68,9 @@ export default {
       login: {
         label: 'Ваш ник',
         placeholder: 'Ваш ник',
+        validation: {
+          required: 'Необходимо ввести имя пользователя',
+        },
       },
       username: {
         label: 'Имя пользователя',
