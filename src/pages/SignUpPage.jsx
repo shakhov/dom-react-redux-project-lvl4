@@ -109,6 +109,7 @@ function SignUpForm({ state }) {
               ref={usernameRef}
               isInvalid={signupError || !isUsernameValid}
               onChange={formik.handleChange}
+              onInput={() => formik.setFieldTouched('username', true, true)}
               onBlur={formik.handleBlur}
               value={formik.values.username}
             />
@@ -134,6 +135,7 @@ function SignUpForm({ state }) {
               required
               isInvalid={!isPasswordValid}
               onChange={formik.handleChange}
+              onInput={() => formik.setFieldTouched('password', true, true)}
               onBlur={formik.handleBlur}
               value={formik.values.password}
             />
@@ -156,6 +158,7 @@ function SignUpForm({ state }) {
               required
               isInvalid={!isConfirmPasswordValid}
               onChange={formik.handleChange}
+              onInput={() => formik.setFieldTouched('confirmPassword', true, true)}
               onBlur={formik.handleBlur}
               value={formik.values.confirmPassword}
             />
