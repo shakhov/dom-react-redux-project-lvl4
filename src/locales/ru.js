@@ -14,7 +14,7 @@ export default {
         login: 'Войти',
       },
       noAccount: 'Нет аккаунта?',
-      signup: 'Зарегистрироваться',
+      signup: 'Регистрация',
     },
     signup: {
       title: 'Регистрация',
