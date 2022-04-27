@@ -80,55 +80,51 @@ function LoginForm({ state }) {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group>
-        <Form.Group>
-          <Form.FloatingLabel
-            controlId="username"
-            className="mb-4"
-            label={t('forms.login.label')}
-          >
-            <Form.Control
-              id="username"
-              name="username"
-              placeholder={t('forms.login.placeholder')}
-              autoComplete="username"
-              required
-              ref={usernameRef}
-              isInvalid={authFailed || !isUsernameValid}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
-            />
-            <Form.Control.Feedback type="invalid">
-              {!isUsernameValid && formik.errors.username}
-            </Form.Control.Feedback>
-          </Form.FloatingLabel>
-        </Form.Group>
-        <Form.Group>
-          <Form.FloatingLabel
-            controlId="password"
-            className="mb-4"
-            label={t('forms.password.label')}
-          >
-            <Form.Control
-              type="password"
-              id="password"
-              name="password"
-              placeholder={t('forms.password.placeholder')}
-              autoComplete="password"
-              required
-              isInvalid={authFailed || !isPasswordValid}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              {!isPasswordValid && formik.errors.password}
-            </Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              {authFailed && t('error.authFailed')}
-            </Form.Control.Feedback>
-          </Form.FloatingLabel>
-        </Form.Group>
+        <Form.FloatingLabel
+          controlId="password"
+          className="mb-4"
+          label={t('forms.login.label')}
+        >
+          <Form.Control
+            name="username"
+            placeholder={t('forms.login.placeholder')}
+            autoComplete="username"
+            required
+            ref={usernameRef}
+            isInvalid={authFailed || !isUsernameValid}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.username}
+          />
+          <Form.Control.Feedback type="invalid">
+            {!isUsernameValid && formik.errors.username}
+          </Form.Control.Feedback>
+        </Form.FloatingLabel>
+      </Form.Group>
+      <Form.Group>
+        <Form.FloatingLabel
+          controlId="password"
+          className="mb-4"
+          label={t('forms.password.label')}
+        >
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder={t('forms.password.placeholder')}
+            autoComplete="password"
+            required
+            isInvalid={authFailed || !isPasswordValid}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+          />
+          <Form.Control.Feedback type="invalid">
+            {!isPasswordValid && formik.errors.password}
+          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            {authFailed && t('error.authFailed')}
+          </Form.Control.Feedback>
+        </Form.FloatingLabel>
       </Form.Group>
       <Button
         type="submit"

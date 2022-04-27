@@ -102,7 +102,6 @@ function SignUpForm({ state }) {
             label={t('forms.username.label')}
           >
             <Form.Control
-              id="username"
               name="username"
               placeholder={t('frorms.username.placeholder')}
               autoComplete="username"
@@ -129,7 +128,6 @@ function SignUpForm({ state }) {
           >
             <Form.Control
               type="password"
-              id="password"
               name="password"
               placeholder={t('forms.password.placeholder')}
               autoComplete="new-password"
@@ -152,7 +150,6 @@ function SignUpForm({ state }) {
           >
             <Form.Control
               type="password"
-              id="confirmPassword"
               name="confirmPassword"
               placeholder={t('forms.confirmPassword.placeholder')}
               autoComplete="new-password"
