@@ -97,6 +97,7 @@ function SignUpForm({ state }) {
       <Form.Group>
         <Form.Group>
           <Form.FloatingLabel
+            controlId="username"
             className="mb-4"
             label={t('forms.username.label')}
           >
@@ -122,6 +123,7 @@ function SignUpForm({ state }) {
         </Form.Group>
         <Form.Group>
           <Form.FloatingLabel
+            controlId="password"
             className="mb-4"
             label={t('forms.password.label')}
           >
@@ -144,6 +146,7 @@ function SignUpForm({ state }) {
         </Form.Group>
         <Form.Group>
           <Form.FloatingLabel
+            controlId="confirmPassword"
             className="mb-4"
             label={t('forms.confirmPassword.label')}
           >

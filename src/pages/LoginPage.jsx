@@ -82,6 +82,7 @@ function LoginForm({ state }) {
       <Form.Group>
         <Form.Group>
           <Form.FloatingLabel
+            controlId="username"
             className="mb-4"
             label={t('forms.login.label')}
           >
@@ -104,6 +105,7 @@ function LoginForm({ state }) {
         </Form.Group>
         <Form.Group>
           <Form.FloatingLabel
+            controlId="password"
             className="mb-4"
             label={t('forms.password.label')}
           >
