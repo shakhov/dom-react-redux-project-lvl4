@@ -110,10 +110,10 @@ function Error({ message }) {
   );
 }
 
-function ChannelsNav({
-  currentChannelId = useSelector(selectCurrentChannelId),
-}) {
+function ChannelsNav() {
   const dispatch = useDispatch();
+
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const channels = useSelector(channelsSelectors.selectAll);
 
   const { t } = useTranslation();

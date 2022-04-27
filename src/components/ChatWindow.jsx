@@ -138,9 +138,9 @@ function Error({ message }) {
 }
 
 function ChatWindow({
-  currentChannelId = useSelector(selectCurrentChannelId),
   currentUsername,
 }) {
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const currentChannel = useSelector(selectChannelById(currentChannelId));
   const channelMessages = useSelector(selectMessagesByChannelId(currentChannelId));
 

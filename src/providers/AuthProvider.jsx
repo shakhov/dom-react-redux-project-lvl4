@@ -25,6 +25,7 @@ function AuthProvider({ children }) {
     logOut,
   }), [
     loggedIn,
+    userId,
   ]);
 
   return (
