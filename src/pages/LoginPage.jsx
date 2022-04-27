@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import {
+  NavLink,
   useLocation,
   useNavigate,
 } from 'react-router-dom';
@@ -164,9 +165,9 @@ function LoginPage({ state }) {
                 {t('login.noAccount')}
               </span>
               &nbsp;
-              <a href="/signup">
+              <NavLink to="/signup">
                 {t('login.signup')}
-              </a>
+              </NavLink>
             </Card.Footer>
           </Card>
         </Col>
