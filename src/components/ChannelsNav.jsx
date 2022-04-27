@@ -66,7 +66,11 @@ function ChannelItem({
           as={Button}
           split
           variant="primary"
-        />
+        >
+          <span className="visually-hidden">
+            {t('channels.dropdown')}
+          </span>
+        </Dropdown.Toggle>
       </ButtonGroup>
       <Dropdown.Menu>
         <Dropdown.Item onClick={onRename}>

@@ -28,6 +28,7 @@ export default {
     },
     channels: {
       title: 'Каналы',
+      dropdown: 'Управление каналом',
       rename: 'Переименовать',
       remove: 'Удалить',
     },
@@ -116,9 +117,9 @@ export default {
     notification: {
       channel: {
         creating: 'Создание канала...',
-        created: 'Канал успешно создан!',
+        created: 'Канал создан',
         renaming: 'Переименовывание канала...',
-        renamed: 'канал переименован!',
+        renamed: 'канал переименован',
         removing: 'Удаление канала...',
         removed: 'Канал удалён',
       },
