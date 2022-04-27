@@ -2,8 +2,8 @@
 
 Упрощённая версия чата Slack.
 
-[![github action status](https://github.com/hexlet-components/projects-frontend-l4-server/workflows/hexlet-check/badge.svg)](../../actions/workflows/hexlet-check.yml)
-[![github action status](https://github.com/hexlet-components/projects-frontend-l4-server/workflows/Node%20CI/badge.svg)](../../actions)
+[![github action status](https://github.com/shakhov/dom-react-redux-project-lvl4/workflows/hexlet-check/badge.svg)](../../actions/workflows/hexlet-check.yml)
+[![github action status](https://github.com/shakhov/dom-react-redux-project-lvl4/workflows/Node%20CI/badge.svg)](../../actions)
 
 ---
 
