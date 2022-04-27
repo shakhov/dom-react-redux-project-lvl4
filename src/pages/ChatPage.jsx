@@ -30,7 +30,7 @@ function ChatPage() {
     const { token } = auth.userId;
     const header = { Authorization: `Bearer ${token}` };
     dispatch(fetchData({ header }));
-  }, [auth.userId, dispatch]);
+  }, []);
 
   return (
     <Container className="h-100 overflow-hidden rounded my-4 shadow">

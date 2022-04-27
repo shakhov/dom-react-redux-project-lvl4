@@ -57,7 +57,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
       formik.resetForm();
       messageRef.current.focus();
     }
-  }, [currentChannelId, formik]);
+  }, []);
 
   const networkError = formik.errors.network;
 
