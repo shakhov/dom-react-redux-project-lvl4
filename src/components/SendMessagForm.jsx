@@ -93,7 +93,8 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
       <FormControl
         id="message"
         name="message"
-        placeholder={t('chat.form.placeholder.message')}
+        label={t('chat.form.message.label')}
+        placeholder={t('chat.form.message.placeholder')}
         className="border-0 p-0 ps-2 form-control"
         type="text"
         required

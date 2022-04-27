@@ -39,8 +39,9 @@ export default {
         button: {
           send: 'Отправить',
         },
-        placeholder: {
-          message: 'Введите сообщение...',
+        message: {
+          label: 'Новое сообщение',
+          placeholder: 'Введите сообщение...',
         },
       },
     },
