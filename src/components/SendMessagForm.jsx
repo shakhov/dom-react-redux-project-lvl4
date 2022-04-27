@@ -94,6 +94,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
         id="message"
         name="message"
         label={t('chat.form.message.label')}
+        aria-label={t('chat.form.message.label')}
         placeholder={t('chat.form.message.placeholder')}
         className="border-0 p-0 ps-2 form-control"
         type="text"
