@@ -9,6 +9,7 @@ import {
   Row,
   Col,
   Spinner,
+  Badge,
 } from 'react-bootstrap';
 
 import {
@@ -57,35 +58,50 @@ function ChatHeader({ currentChannel, channelMessages }) {
 
 function Message({ isCurrentUser, message }) {
   const { username, body } = message;
-
   const filter = useFilter();
 
   const rowClassName = cn(
-    'w-100', 'd-flex', 'flex-row', // eslint-disable-line
+    'w-100', 'flex-row', 'py-2', 'align-items-center', // eslint-disable-line
     {
-      'justify-content-start': !isCurrentUser,
-      'justify-content-end': isCurrentUser,
+      'flex-row': !isCurrentUser,
+      'flex-row-reverse': isCurrentUser,
     },
   );
 
   const messageClassName = cn(
-    'text-break', 'mb-2','p-2', 'alert', // eslint-disable-line
+    'text-break', 'rounded', 'col-auto', 'p-2', // eslint-disable-line
     {
+      'ms-auto': isCurrentUser,
       'alert-success': isCurrentUser,
+      'me-auto': !isCurrentUser,
       'alert-warning': !isCurrentUser,
+    },
+  );
+
+  const badgeClassName = cn(
+    'text-dark', 'fs-6', // eslint-disable-line
+    {
+      'bg-success': isCurrentUser,
+      'bg-warning': !isCurrentUser,
     },
   );
 
   return (
     <Row className={rowClassName}>
-      <Col className="col-md-10">
-        <div className={messageClassName}>
-          <b>
-            {username}
-            :&nbsp;
-          </b>
-          {filter.clean(body)}
-        </div>
+      <Col className="col-8 px-1">
+        <Row className="w-100 m-0">
+          <Col className={messageClassName}>
+            <Badge className={badgeClassName}>
+              {username[0].toUpperCase()}
+            </Badge>
+            &nbsp;
+            <b>
+              {username}
+            </b>
+            <hr className="my-1" />
+            {filter.clean(body)}
+          </Col>
+        </Row>
       </Col>
     </Row>
   );
@@ -156,7 +172,7 @@ function ChatWindow({
   }
 
   return (
-    <div className="d-flex flex-column h-100">
+    <Container className="d-flex flex-column h-100">
       <ChatHeader
         currentChannel={currentChannel}
         channelMessages={channelMessages}
@@ -171,7 +187,7 @@ function ChatWindow({
           currentChannelId={currentChannelId}
         />
       </div>
-    </div>
+    </Container>
   );
 }
 
