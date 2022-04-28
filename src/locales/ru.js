@@ -1,5 +1,6 @@
 export default {
   translation: {
+    cancel: 'Отмена',
     header: {
       title: 'Hexlet Chat',
     },

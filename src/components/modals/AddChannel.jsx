@@ -145,13 +145,22 @@ function AddChannel({ onHide }) {
               {!isNameValid && formik.errors.name}
             </FormControl.Feedback>
           </FormGroup>
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={formik.isSubmitting || !isNameValid}
-          >
-            {t('modals.addChannel.button.add')}
-          </Button>
+          <FormGroup className="d-flex flex-row justify-content-left">
+            <Button
+              className="ms-auto me-2"
+              variant="secondary"
+              onClick={onHide}
+            >
+              {t('cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={formik.isSubmitting || !isNameValid}
+            >
+              {t('modals.addChannel.button.add')}
+            </Button>
+          </FormGroup>
         </form>
       </Modal.Body>
     </Modal>

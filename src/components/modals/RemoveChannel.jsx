@@ -71,7 +71,14 @@ function RemoveChannel({ channel, onHide }) {
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit}>
-          <FormGroup>
+          <FormGroup className="d-flex flex-row justify-content-left">
+            <Button
+              className="ms-auto me-2"
+              variant="secondary"
+              onClick={onHide}
+            >
+              {t('cancel')}
+            </Button>
             <Button
               variant="danger"
               type="submit"

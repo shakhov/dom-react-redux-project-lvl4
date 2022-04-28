@@ -147,13 +147,22 @@ function RenameChannel({ channel, onHide }) {
             </FormControl.Feedback>
 
           </FormGroup>
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={formik.isSubmitting || !isNameValid}
-          >
-            {t('modals.renameChannel.button.rename')}
-          </Button>
+          <FormGroup className="d-flex flex-row justify-content-left">
+            <Button
+              className="ms-auto me-2"
+              variant="secondary"
+              onClick={onHide}
+            >
+              {t('cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={formik.isSubmitting || !isNameValid}
+            >
+              {t('modals.renameChannel.button.rename')}
+            </Button>
+          </FormGroup>
         </form>
       </Modal.Body>
     </Modal>
