@@ -178,7 +178,7 @@ function ChatWindow({
   }
 
   return (
-    <Container className="d-flex flex-column h-100">
+    <Container className="d-flex flex-column h-100 p-0">
       <ChatHeader
         currentChannel={currentChannel}
         channelMessages={channelMessages}
