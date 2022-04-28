@@ -32,6 +32,7 @@ function SendMessageForm({ currentUsername, currentChannelId }) {
         username: currentUsername,
         channelId: currentChannelId,
         body: values.message,
+        timestamp: Date.now(),
       };
 
       setSubmitting(true);

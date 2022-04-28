@@ -57,8 +57,10 @@ function ChatHeader({ currentChannel, channelMessages }) {
 }
 
 function Message({ isCurrentUser, message }) {
-  const { username, body } = message;
+  const { username, body, timestamp } = message;
   const filter = useFilter();
+
+  const date = new Date(timestamp);
 
   const rowClassName = cn(
     'w-100', 'flex-row', 'py-2', 'align-items-center', // eslint-disable-line
@@ -98,6 +100,10 @@ function Message({ isCurrentUser, message }) {
             <b>
               {username}
             </b>
+            &nbsp;
+            <small className="text-muted ms-3">
+              {date.toLocaleString('ru')}
+            </small>
             <hr className="my-1" />
             {filter.clean(body)}
           </Col>
