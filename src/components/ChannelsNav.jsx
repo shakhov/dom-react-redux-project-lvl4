@@ -6,6 +6,7 @@ import {
   Nav,
   Dropdown,
   Spinner,
+  Container,
 } from 'react-bootstrap';
 
 import { useTranslation } from 'react-i18next';
@@ -157,22 +158,24 @@ function ChannelsNav() {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-      <Nav
-        className="flex-column"
-        variant="pills"
-        fill
-        activeKey={currentChannelId}
-        onSelect={handleSelect}
-      >
-        {channels.map((channel) => (
-          <ChannelItem
-            key={`channel_${channel.id}`}
-            channel={channel}
-            onRename={() => setModalState({ modal: modals.renameChannel, channel })}
-            onDelete={() => setModalState({ modal: modals.removeChannel, channel })}
-          />
-        ))}
-      </Nav>
+      <Container className="d-flex h-100 flex-column overflow-auto">
+        <Nav
+          className="flex-column"
+          variant="pills"
+          fill
+          activeKey={currentChannelId}
+          onSelect={handleSelect}
+        >
+          {channels.map((channel) => (
+            <ChannelItem
+              key={`channel_${channel.id}`}
+              channel={channel}
+              onRename={() => setModalState({ modal: modals.renameChannel, channel })}
+              onDelete={() => setModalState({ modal: modals.removeChannel, channel })}
+            />
+          ))}
+        </Nav>
+      </Container>
       {ActiveModal && <ActiveModal channel={modalState.channel} onHide={hideModal} />}
     </>
   );
