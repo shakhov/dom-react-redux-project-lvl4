@@ -5,6 +5,8 @@
 [![github action status](https://github.com/shakhov/dom-react-redux-project-lvl4/workflows/hexlet-check/badge.svg)](../../actions/workflows/hexlet-check.yml)
 [![github action status](https://github.com/shakhov/dom-react-redux-project-lvl4/workflows/Node%20CI/badge.svg)](../../actions)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/64a38732572775cda99d/maintainability)](https://codeclimate.com/github/shakhov/dom-react-redux-project-lvl4/maintainability)
+
 ---
 
 ## Установка
